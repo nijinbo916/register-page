@@ -7,9 +7,14 @@ Web 开发技术 · **Lesson 1 课后作业**
 ## 在线预览
 
 - **Vercel 线上地址**：<https://register-page-tau.vercel.app/>
+- **GitHub Pages 备用地址**：<https://nijinbo916.github.io/register-page/>
 - **GitHub 仓库地址**：<https://github.com/nijinbo916/register-page>
 
-> 部署方式：本地代码经 SSH 推送到 GitHub 仓库，仓库由 Vercel 导入并自动构建部署；此后每次推送到 `main` 分支，Vercel 都会自动重新部署。
+> 部署说明：
+>
+> - 本地代码通过 SSH 推送到 GitHub 仓库，仓库由 Vercel 导入并自动构建部署；此后每次推送到 `main` 分支，Vercel 都会自动重新部署。
+> - 另通过 GitHub Pages 从 `main` 分支根目录发布了一份，作为备用地址。
+> - 部分网络环境对 `*.vercel.app` 域名存在 DNS 污染、无法访问，此时请使用上面的 GitHub Pages 备用地址。
 
 ## 目录结构
 
