@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Web 开发技术第一次课作业 —— 用户注册页（HTML + CSS + JavaScript）">
+  <title>用户注册 | Web 开发技术</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <main class="page">
+    <section class="register-card">
+      <!-- ============ 卡片头部 ============ -->
+      <header class="card-header">
+        <div class="brand">
+          <span class="brand-logo">W</span>
+          <span class="brand-name">Web&nbsp;Dev</span>
+        </div>
+        <h1 class="card-title">创建账号</h1>
+        <p class="card-subtitle">填写以下信息，立即开始你的第一个前端项目</p>
+      </header>
+
+      <!-- ============ 注册表单 ============ -->
+      <!-- novalidate：关闭浏览器默认气泡，改由 js/main.js 做统一的校验与提示 -->
+      <form id="registerForm" class="register-form" action="#" method="post" novalidate>
+
+        <!-- 用户名 -->
+        <div class="form-item" data-field="username">
+          <label class="form-label" for="username">用户名</label>
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+            <input class="form-input" type="text" id="username" name="username" placeholder="4-16 位字母、数字或下划线"
+              autocomplete="username" required minlength="4" maxlength="16">
+          </div>
+          <p class="form-tip" id="usernameTip"></p>
+        </div>
+
+        <!-- 邮箱 -->
+        <div class="form-item" data-field="email">
+          <label class="form-label" for="email">邮箱</label>
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m2 6 10 7 10-7" />
+              </svg>
+            </span>
+            <input class="form-input" type="email" id="email" name="email" placeholder="example@mail.com"
+              autocomplete="email" required>
+          </div>
+          <p class="form-tip" id="emailTip"></p>
+        </div>
+
+        <!-- 手机号 -->
+        <div class="form-item" data-field="phone">
+          <label class="form-label" for="phone">手机号</label>
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="2" width="12" height="20" rx="2.5" />
+                <path d="M11 18.5h2" />
+              </svg>
+            </span>
+            <input class="form-input" type="tel" id="phone" name="phone" placeholder="11 位中国大陆手机号"
+              autocomplete="tel" required maxlength="11">
+          </div>
+          <p class="form-tip" id="phoneTip"></p>
+        </div>
+
+        <!-- 密码 -->
+        <div class="form-item" data-field="password">
+          <label class="form-label" for="password">密码</label>
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10" width="16" height="10" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+              </svg>
+            </span>
+            <input class="form-input" type="password" id="password" name="password" placeholder="至少 8 位，含字母和数字"
+              autocomplete="new-password" required minlength="8">
+            <!-- 明文 / 密文切换 -->
+            <button class="toggle-pwd" type="button" data-target="password" aria-label="显示密码">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- 密码强度条 -->
+          <div class="strength" id="strengthBox" hidden>
+            <div class="strength-bars">
+              <i class="bar"></i><i class="bar"></i><i class="bar"></i><i class="bar"></i>
+            </div>
+            <span class="strength-text" id="strengthText">密码强度</span>
+          </div>
+
+          <p class="form-tip" id="passwordTip"></p>
+        </div>
+
+        <!-- 确认密码 -->
+        <div class="form-item" data-field="confirmPassword">
+          <label class="form-label" for="confirmPassword">确认密码</label>
+          <div class="input-wrap">
+            <span class="input-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10" width="16" height="10" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                <path d="m9.5 15 1.8 1.8L14.5 13.5" />
+              </svg>
+            </span>
+            <input class="form-input" type="password" id="confirmPassword" name="confirmPassword"
+              placeholder="请再次输入密码" autocomplete="new-password" required>
+            <button class="toggle-pwd" type="button" data-target="confirmPassword" aria-label="显示密码">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12Z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+          <p class="form-tip" id="confirmPasswordTip"></p>
+        </div>
+
+        <!-- 用户协议 -->
+        <div class="form-item form-item--agree" data-field="agree">
+          <label class="checkbox">
+            <input type="checkbox" id="agree" name="agree">
+            <span class="checkbox-box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 13 4 4L19 7" />
+              </svg>
+            </span>
+            <span class="checkbox-text">
+              我已阅读并同意
+              <a href="#" class="link">《用户服务协议》</a>
+              与
+              <a href="#" class="link">《隐私政策》</a>
+            </span>
+          </label>
+          <p class="form-tip" id="agreeTip"></p>
+        </div>
+
+        <!-- 提交 -->
+        <button class="btn-submit" type="submit" id="submitBtn">
+          <span class="btn-text">注 册</span>
+          <span class="btn-loading" aria-hidden="true"></span>
+        </button>
+
+        <p class="form-footer">已有账号？<a href="#" class="link">立即登录</a></p>
+      </form>
+    </section>
+
+    <p class="page-copyright">Web 开发技术 · Lesson 1 课后作业</p>
+  </main>
+
+  <!-- 提交成功提示 -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="toast-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="m5 13 4 4L19 7" />
+      </svg>
+    </span>
+    <span class="toast-text" id="toastText"></span>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

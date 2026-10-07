@@ -1,0 +1,561 @@
+/* ============================================================
+   用户注册页样式
+   Web 开发技术 · Lesson 1 课后作业
+   结构：1.变量  2.基础重置  3.页面布局  4.卡片  5.表单项
+        6.密码强度  7.复选框  8.按钮  9.Toast  10.响应式
+   ============================================================ */
+
+/* ---------- 1. 全局变量 ---------- */
+:root {
+  --color-primary: #2f6bff;
+  --color-primary-dark: #1f4fd8;
+  --color-primary-soft: #eaf0ff;
+  --color-text: #1a2233;
+  --color-text-sub: #6b7688;
+  --color-placeholder: #a6aebd;
+  --color-border: #dfe4ec;
+  --color-border-focus: #2f6bff;
+  --color-bg: #eef2f9;
+  --color-card: #ffffff;
+  --color-danger: #e5484d;
+  --color-success: #17a673;
+  --color-warning: #f0a020;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-card: 0 18px 48px -18px rgba(23, 43, 92, .28);
+  --shadow-focus: 0 0 0 4px rgba(47, 107, 255, .14);
+
+  --font: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- 2. 基础重置 ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  /* 背景装饰光斑 */
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(47, 107, 255, .18), transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(120, 89, 255, .16), transparent 46%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  outline: none;
+}
+
+/* ---------- 3. 页面布局 ---------- */
+.page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 22px;
+}
+
+/* ---------- 4. 注册卡片 ---------- */
+.register-card {
+  width: 100%;
+  max-width: 460px;
+  background-color: var(--color-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 40px 40px 32px;
+  animation: card-in .5s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 品牌标识 */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.brand-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background-image: linear-gradient(135deg, #4b83ff, #2f6bff 55%, #6a4bff);
+}
+
+.brand-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  color: var(--color-text-sub);
+}
+
+.card-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+.card-subtitle {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--color-text-sub);
+}
+
+.register-form {
+  margin-top: 26px;
+}
+
+/* ---------- 5. 表单项 ---------- */
+.form-item {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 13px;
+  width: 18px;
+  height: 18px;
+  color: var(--color-placeholder);
+  pointer-events: none;
+  transition: color .2s;
+}
+
+.input-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 44px 0 40px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: #fbfcfe;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+
+.form-input::placeholder {
+  color: var(--color-placeholder);
+}
+
+.form-input:hover {
+  border-color: #c9d2e2;
+}
+
+/* 聚焦状态 */
+.form-input:focus {
+  border-color: var(--color-border-focus);
+  background-color: #fff;
+  box-shadow: var(--shadow-focus);
+}
+
+.input-wrap:focus-within .input-icon {
+  color: var(--color-primary);
+}
+
+/* 校验状态：由 JS 在 .form-item 上切换 is-error / is-ok */
+.form-item.is-error .form-input {
+  border-color: var(--color-danger);
+  background-color: #fff7f7;
+}
+
+.form-item.is-error .form-input:focus {
+  box-shadow: 0 0 0 4px rgba(229, 72, 77, .13);
+}
+
+.form-item.is-error .input-icon {
+  color: var(--color-danger);
+}
+
+.form-item.is-ok .form-input {
+  border-color: rgba(23, 166, 115, .55);
+}
+
+.form-item.is-ok .input-icon {
+  color: var(--color-success);
+}
+
+/* 提示文字 */
+.form-tip {
+  min-height: 17px;
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--color-danger);
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity .18s, transform .18s;
+}
+
+.form-item.is-error .form-tip {
+  opacity: 1;
+  transform: none;
+}
+
+/* 显示 / 隐藏密码按钮 */
+.toggle-pwd {
+  position: absolute;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-placeholder);
+  cursor: pointer;
+  transition: color .2s, background-color .2s;
+}
+
+.toggle-pwd svg {
+  width: 17px;
+  height: 17px;
+}
+
+.toggle-pwd:hover {
+  color: var(--color-primary);
+  background-color: var(--color-primary-soft);
+}
+
+/* 密码可见时：图标变色，并加一道斜杠表示「隐藏」 */
+.toggle-pwd.is-on {
+  color: var(--color-primary);
+}
+
+.toggle-pwd.is-on::after {
+  content: "";
+  position: absolute;
+  width: 19px;
+  height: 1.6px;
+  border-radius: 2px;
+  background-color: currentColor;
+  transform: rotate(-45deg);
+}
+
+/* ---------- 6. 密码强度 ---------- */
+.strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 9px;
+}
+
+.strength-bars {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.strength-bars .bar {
+  height: 4px;
+  border-radius: 99px;
+  background-color: #e8ecf3;
+  transition: background-color .25s;
+}
+
+.strength-text {
+  width: 44px;
+  font-size: 12px;
+  text-align: right;
+  color: var(--color-text-sub);
+}
+
+/* 强度等级 1-4 */
+.strength[data-level="1"] .bar:nth-child(-n+1) {
+  background-color: var(--color-danger);
+}
+
+.strength[data-level="2"] .bar:nth-child(-n+2) {
+  background-color: var(--color-warning);
+}
+
+.strength[data-level="3"] .bar:nth-child(-n+3) {
+  background-color: #3b82f6;
+}
+
+.strength[data-level="4"] .bar:nth-child(-n+4) {
+  background-color: var(--color-success);
+}
+
+/* ---------- 7. 复选框 ---------- */
+.form-item--agree {
+  margin: 20px 0 22px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-box {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--color-border);
+  border-radius: 5px;
+  background-color: #fff;
+  color: #fff;
+  transition: background-color .18s, border-color .18s, transform .12s;
+}
+
+.checkbox-box svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  transform: scale(.6);
+  transition: opacity .18s, transform .18s;
+}
+
+.checkbox:hover .checkbox-box {
+  border-color: var(--color-primary);
+}
+
+.checkbox input:checked+.checkbox-box {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.checkbox input:checked+.checkbox-box svg {
+  opacity: 1;
+  transform: none;
+}
+
+.checkbox input:focus-visible+.checkbox-box {
+  box-shadow: var(--shadow-focus);
+}
+
+.checkbox-text {
+  font-size: 12.5px;
+  line-height: 20px;
+  color: var(--color-text-sub);
+}
+
+.form-item--agree.is-error .checkbox-box {
+  border-color: var(--color-danger);
+}
+
+/* 文字链接 */
+.link {
+  color: var(--color-primary);
+  transition: color .2s;
+}
+
+.link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* ---------- 8. 提交按钮 ---------- */
+.btn-submit {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #fff;
+  cursor: pointer;
+  background-image: linear-gradient(135deg, #4b83ff, #2f6bff 60%, #5a52ff);
+  box-shadow: 0 10px 22px -10px rgba(47, 107, 255, .85);
+  transition: transform .15s, box-shadow .2s, opacity .2s;
+}
+
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px -10px rgba(47, 107, 255, .9);
+}
+
+.btn-submit:active {
+  transform: translateY(0) scale(.995);
+}
+
+.btn-submit.is-loading {
+  cursor: progress;
+  opacity: .85;
+  pointer-events: none;
+}
+
+.btn-submit.is-loading .btn-text {
+  visibility: hidden;
+}
+
+.btn-loading {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, .4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.btn-submit.is-loading .btn-loading {
+  opacity: 1;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.form-footer {
+  margin-top: 18px;
+  font-size: 12.5px;
+  text-align: center;
+  color: var(--color-text-sub);
+}
+
+.page-copyright {
+  font-size: 12px;
+  color: #9aa4b5;
+}
+
+/* ---------- 9. Toast 提示 ---------- */
+.toast {
+  position: fixed;
+  top: 26px;
+  left: 50%;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: calc(100vw - 40px);
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--color-success);
+  box-shadow: 0 14px 32px -12px rgba(15, 90, 64, .6);
+  opacity: 0;
+  transform: translate(-50%, -16px);
+  pointer-events: none;
+  transition: opacity .28s, transform .28s;
+}
+
+.toast.is-show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast.is-error {
+  background-color: var(--color-danger);
+  box-shadow: 0 14px 32px -12px rgba(160, 40, 44, .6);
+}
+
+.toast-icon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+}
+
+.toast-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- 10. 响应式 ---------- */
+@media (max-width: 520px) {
+  .page {
+    padding: 24px 14px;
+    justify-content: flex-start;
+  }
+
+  .register-card {
+    padding: 30px 22px 26px;
+    border-radius: var(--radius-md);
+  }
+
+  .card-title {
+    font-size: 22px;
+  }
+}
+
+/* 尊重系统「减少动画」偏好 */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}
